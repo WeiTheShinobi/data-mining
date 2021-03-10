@@ -1,3 +1,5 @@
+#  五隻小鴨之歌
+
 words = ["Five","Four","Three","Two","One","Sad mother","Five"]
 
 # 第一句

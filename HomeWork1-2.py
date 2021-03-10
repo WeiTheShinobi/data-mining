@@ -1,3 +1,5 @@
+# 河內塔
+
 def hanoi(n, A, B, C):
     if n == 1:
         print(f"{A}->{C}")
