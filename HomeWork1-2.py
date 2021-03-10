@@ -1,4 +1,4 @@
-# 河內塔
+# 河內塔 遞迴解
 
 def hanoi(n, A, B, C):
     if n == 1:
@@ -10,5 +10,4 @@ def hanoi(n, A, B, C):
 
 if __name__ == '__main__':
     n = int(input())
-    # 河內塔 遞迴解
     hanoi(int(n), 'A', 'B', 'C')
