@@ -2,12 +2,14 @@
 
 def hanoi(n, A, B, C):
     if n == 1:
+        print(f"{n} 號圓盤： ", end="")
         print(f"{A}->{C}")
     else:
         hanoi(n-1, A, C, B)
-        hanoi(1, A, B, C)
+        print(f"{n} 號圓盤： ", end="")
+        print(A+"->"+C)
         hanoi(n-1, B, A, C)
 
 if __name__ == '__main__':
-    n = int(input())
-    hanoi(int(n), 'A', 'B', 'C')
+    n = int(input("請輸入數字： "))
+    hanoi(n, 'A', 'B', 'C')
