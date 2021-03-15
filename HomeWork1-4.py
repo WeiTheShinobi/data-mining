@@ -1,7 +1,5 @@
 # 驗證密碼
 
-import sys
-
 def login():
     try:
         f1r = open("password.txt", mode='r', encoding='utf-8')
@@ -9,7 +7,7 @@ def login():
         f1r.close()
     except:
         print("請先設定密碼。")
-        sys.exit()
+        exit()
 
     count = 0
     while count < 4:
