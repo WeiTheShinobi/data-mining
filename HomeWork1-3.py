@@ -63,10 +63,10 @@ def setPassword():
         if pswdInput == pswdInputAgain:
             print("密碼設定完成。")
             pswd = pswdInput
-            file_name = 'password.txt'
-            f1w = open(file_name, mode='w', encoding='utf-8')
+            f1w = open("password.txt", mode='w', encoding='utf-8')
             f1w.write(pswd)
             f1w.close()
+            return pswd
         else:
             print("兩次輸入不一致，請重新設定密碼。")
 
@@ -95,11 +95,7 @@ def login():
         f1r.close()
     except:
         # 設定密碼
-        setPassword()
-
-        f1r = open("password.txt", mode='r', encoding='utf-8')
-        password = f1r.read()
-        f1r.close()
+        password = setPassword()
 
     # 登入
     loginChecker(password)
