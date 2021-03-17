@@ -2,6 +2,8 @@
 
 # 驗證器
 # 使用鍵值對來進行驗證
+# 密碼當鍵檢查
+# 檢查到就回傳true 反之
 def wordChecker(pswdInput,checkword):
     wordDict = {}
     for i in checkword:
@@ -97,7 +99,7 @@ def login():
         # 設定密碼
         password = setPassword()
 
-    # 登入
+    # 登入驗證
     loginChecker(password)
 
 
