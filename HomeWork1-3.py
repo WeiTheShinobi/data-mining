@@ -1,7 +1,12 @@
 # 設定一個合法的密碼 以及 登入 （與第四題合併）
 
+
+import os
+
 # 驗證器
 # 使用鍵值對來進行驗證
+# 密碼當鍵檢查
+# 檢查到就回傳true 反之
 def wordChecker(pswdInput,checkword):
     wordDict = {}
     for i in checkword:
@@ -89,15 +94,15 @@ def loginChecker(password):
 
 def login():
     # 讀取密碼檔案，如果失敗進入設定密碼
-    try:
+    if os.path.exists('password.txt'):
         f1r = open("password.txt", mode='r', encoding='utf-8')
         password = f1r.read()
         f1r.close()
-    except:
+    else:
         # 設定密碼
         password = setPassword()
 
-    # 登入
+    # 登入驗證
     loginChecker(password)
 
 
