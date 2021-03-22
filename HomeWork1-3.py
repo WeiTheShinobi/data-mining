@@ -1,6 +1,6 @@
 # 設定一個合法的密碼 以及 登入 （與第四題合併）
 
-
+import sys
 import os
 
 # 驗證器
@@ -55,7 +55,7 @@ def setPassword():
 
         # 按下Enter退出
         if pswdInput == "":
-            exit()
+            sys.exit()
 
         # 驗證密碼是否符合條件
         if not passwordChecker(pswdInput):
