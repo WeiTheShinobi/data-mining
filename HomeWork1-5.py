@@ -8,6 +8,7 @@ def articleLoader(article):
     f1r.close()
     return article
 
+
 # 找出檔案的標點符號
 def wordChecker(article,checkword):
     wordDict = {}
@@ -23,6 +24,7 @@ def wordChecker(article,checkword):
 if __name__ == '__main__':
     articleList = os.listdir("input_files")
 
+    # 將文章列表一一讀取
     for title in articleList:
         article = articleLoader(title)
 
