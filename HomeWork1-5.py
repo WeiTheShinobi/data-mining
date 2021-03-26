@@ -9,15 +9,42 @@ def articleLoader(article):
     return article
 
 
+# 算出文章中文數
+# 總長 - 空格 - 換行 - 符號 = 中文數
+def chineseCounter(article, func):
+    funcDict = {}
+    for i in func:
+        funcDict[i] = i
+
+    count = 0
+    for i in article:
+        if i == " ":
+            count += 1
+        if i == "\n":
+            count += 1
+        if i == funcDict.get(i):
+            count += 1
+
+    return len(article) - count
+
+
 # 找出檔案的標點符號
-def wordChecker(article,checkword):
+def funcCounter(article):
+    func = "，。、？！：；"
     wordDict = {}
     count = 0
-    for i in checkword:
+
+    for i in func:
         wordDict[i] = i
-    for i in article:
-        if i == wordDict.get(i):
+
+    for i in range(len(article)):
+        # 刪節號額外處理
+        if article[i] == "…" and i+1 < len(article):
+            if article[i+1] == "…":
+                count += 1
+        elif article[i] == wordDict.get(article[i]):
             count += 1
+
     return count
 
 
@@ -28,18 +55,15 @@ if __name__ == '__main__':
     for title in articleList:
         article = articleLoader(title)
 
-        # 為了將兩個刪節號視為一個標點符號，使用list。
-        checkWord = "，。、？！：；"
-        checkWordList = list(checkWord)
-        checkWordList.append("……")
+        # 為了將兩個刪節號視為一個標點符號。
+        func = "，。、？！：；…"
 
-        articleWordsAndFunc = len(article)
-        articleFunc = wordChecker(article, checkWordList)
+        articleChineseCount = chineseCounter(article, func)
+        articleFuncCount = funcCounter(article)
 
-        articleWords = articleWordsAndFunc - articleFunc
-        articleAvgWords = articleWords / articleFunc
+        articleAvgSentence = articleChineseCount / articleFuncCount
 
-        articleWords = str(articleWords)
-        articleAvgWords = str(round(articleAvgWords, 1))
+        articleChineseCount = str(articleChineseCount)
+        articleAvgSentence = str(round(articleAvgSentence, 1))
 
-        print("輸出" + title + " 的中文字數統計是 " + articleWords + "，平均句長是 " + articleAvgWords + " 字")
+        print("輸出" + title + " 的中文字數統計是 " + articleChineseCount + "，平均句長是 " + articleAvgSentence + " 字")
