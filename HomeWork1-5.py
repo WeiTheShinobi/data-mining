@@ -2,16 +2,17 @@
 import os
 
 
-def articleLoader(article):
-    f1r = open("input_files/" + article, mode='r', encoding='utf-8')
-    article = f1r.read()
+def articleLoader(title):
+    f1r = open("input_files/" + title, mode='r', encoding='utf-8')
+    title = f1r.read()
     f1r.close()
-    return article
+    return title
 
 
 # 算出文章中文數
 # 總長 - 空格 - 換行 - 符號 = 中文數
-def chineseCounter(article, func):
+def chineseCounter(article):
+    func = "，。、？！：；…"
     funcDict = {}
     for i in func:
         funcDict[i] = i
@@ -32,7 +33,7 @@ def chineseCounter(article, func):
 def funcCounter(article):
     func = "，。、？！：；"
     wordDict = {}
-    count = 0
+    funcCount = 0
 
     for i in func:
         wordDict[i] = i
@@ -41,11 +42,11 @@ def funcCounter(article):
         # 刪節號額外處理
         if article[i] == "…" and i+1 < len(article):
             if article[i+1] == "…":
-                count += 1
+                funcCount += 1
         elif article[i] == wordDict.get(article[i]):
-            count += 1
+            funcCount += 1
 
-    return count
+    return funcCount
 
 
 if __name__ == '__main__':
@@ -53,12 +54,11 @@ if __name__ == '__main__':
 
     # 將文章列表一一讀取
     for title in articleList:
+        # 讀取檔案
         article = articleLoader(title)
 
-        # 為了將兩個刪節號視為一個標點符號。
-        func = "，。、？！：；…"
-
-        articleChineseCount = chineseCounter(article, func)
+        # 算出純中文與純標點符號然後運算
+        articleChineseCount = chineseCounter(article)
         articleFuncCount = funcCounter(article)
 
         articleAvgSentence = articleChineseCount / articleFuncCount
