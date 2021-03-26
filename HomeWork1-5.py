@@ -4,9 +4,9 @@ import os
 
 def articleLoader(title):
     f1r = open("input_files/" + title, mode='r', encoding='utf-8')
-    title = f1r.read()
+    article = f1r.read()
     f1r.close()
-    return title
+    return article
 
 
 # 算出文章中文數
