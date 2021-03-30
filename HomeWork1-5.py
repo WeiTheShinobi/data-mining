@@ -10,12 +10,21 @@ def articleLoader(title):
 
 
 # 算出文章中文數
-# 總長 - 空格 - 換行 - 符號 = 中文數
+# 總長 - 空格 - 換行 - 符號 - 英文 - 數字 = 中文數
 def chineseCounter(article):
     func = "，。、？！：；…"
-    funcDict = {}
+    upperEng = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lowerEng = "abcdefghijklmnopqrstuvwxyz"
+    number = "0123456789"
+    wordDict = {}
     for i in func:
-        funcDict[i] = i
+        wordDict[i] = i
+    for i in upperEng:
+        wordDict[i] = i
+    for i in lowerEng:
+        wordDict[i] = i
+    for i in number:
+        wordDict[i] = i
 
     count = 0
     for i in article:
@@ -23,7 +32,7 @@ def chineseCounter(article):
             count += 1
         if i == "\n":
             count += 1
-        if i == funcDict.get(i):
+        if i == wordDict.get(i):
             count += 1
 
     return len(article) - count
