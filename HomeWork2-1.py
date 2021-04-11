@@ -54,13 +54,17 @@ def problem2(round=1000000, variable=0.024):
 
 
 def confirm(problem):
+    print(problem.__name__)
     for j in range(0, 1001, 5):
         print("最高與最低支持度差距： " + str(j / 10) + "%")
-        print(problem(10000, j / 1000))
+        res = problem(10000, j / 1000)
+        print(res)
+        if res == 1:
+            break
 
 
-print(problem1())
-print(problem2())
+print("狀況一達成機率 ： " + str(problem1()))
+print("狀況二達成機率 ： " + str(problem2()))
 
 confirm(problem1)
 confirm(problem2)
