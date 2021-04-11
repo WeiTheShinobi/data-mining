@@ -24,62 +24,43 @@ ptp 最大值與最小值差
 greater(a,b) a>b
 all 全
 
- 
+
 """
 
 
-
-def problem1():
-    pvalsUpper = (0.357 + 0.012, 0.245 + 0.012, 0.227 + 0.012)
-    pvalsLower = (0.357 - 0.012, 0.245 - 0.012, 0.227 - 0.012)
+def problem1(round=1000000, variable=0.024):
+    pvalsUpper = (0.357 + (variable / 2), 0.245 + (variable / 2), 0.227 + (variable / 2))
+    pvalsLower = (0.357 - (variable / 2), 0.245 - (variable / 2), 0.227 - (variable / 2))
     res = 0
 
-    for i in range(1000000):
-        test = np.random.multinomial(3000, (0.357, 0.245, 0.227,0), 5) / 3000
-        test = test[:,:-1]
-        resTest = np.all(np.all(np.greater_equal(pvalsUpper,test)) * np.all(np.greater_equal(test,pvalsLower)))
+    for i in range(round):
+        test = np.random.multinomial(3000, (0.357, 0.245, 0.227, 0), 5) / 3000
+        test = test[:, :-1]
+        resTest = np.all(np.all(np.greater_equal(pvalsUpper, test)) * np.all(np.greater_equal(test, pvalsLower)))
         res += resTest
-    res = res / 1000000
+    res = res / round
     return res
 
-def problem2():
+
+def problem2(round=1000000, variable=0.024):
     res = 0
-    for i in range(1000000):
-        test = np.random.multinomial(3000, (0.357, 0.245, 0.227,0), 5) / 3000
-        test = test[:,:-1]
-        resTest = np.all((np.ptp(test,0)) < 0.024)
+    for i in range(round):
+        test = np.random.multinomial(3000, (0.357, 0.245, 0.227, 0), 5) / 3000
+        test = test[:, :-1]
+        resTest = np.all((np.ptp(test, 0)) < variable)
         res += resTest
-    res = res / 1000000
+    res = res / round
     return res
 
-def confirm1():
-    for j in range(0,1001,5):
-        print("最高與最低支持度差距： " + str(j/10) + "%")
-        variable = (j/1000)
-        pvalsUpper = (0.357 + variable, 0.245 + variable, 0.227 + variable)
-        pvalsLower = (0.357 - variable, 0.245 - variable, 0.227 - variable)
-        res = 0
-        for i in range(10000):
-            test = np.random.multinomial(3000, (0.357, 0.245, 0.227,0), 5) / 3000
-            test = test[:,:-1]
-            resTest = np.all(np.all(np.greater_equal(pvalsUpper,test)) * np.all(np.greater_equal(test,pvalsLower)))
-            res += resTest
-        res = res / 10000
-        print(res)
 
-def confirm2():
-    for j in range(0,1001,5):
-        print("最高與最低支持度差距： " + str(j/10) + "%")
-        res = 0
-        for i in range(10000):
-            test = np.random.multinomial(3000, (0.357, 0.245, 0.227,0), 5) / 3000
-            test = test[:,:-1]
-            resTest = np.all((np.ptp(test,0)) < (j / 1000))
-            res += resTest
-        res = res / 10000
-        print(res)
+def confirm(problem):
+    for j in range(0, 1001, 5):
+        print("最高與最低支持度差距： " + str(j / 10) + "%")
+        print(problem(10000, j / 1000))
 
-# print(problem1())
-# print(problem2())
-# confirm1()
-confirm2()
+
+print(problem1())
+print(problem2())
+
+confirm(problem1)
+confirm(problem2)
