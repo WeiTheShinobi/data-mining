@@ -25,12 +25,7 @@ for i in range(118):
 # （2）有參加考試的學生各得多少分？若某生在某題曾數次上傳，則他在此題的得分記為最後上傳的一次。
 
 Student_Score = {}
-file2 = file[file['Problem'] == 1]
-file2 = file2.groupby('StudentID').Score
-for Name,Score in file2:
-    Student_Score[Name] = Score.max()
-
-for i in range(2,5):
+for i in range(1,5):
     file2 = file[file['Problem'] == i]
     file2 = file2.groupby('StudentID').Score
     for Name, Score in file2:
@@ -50,4 +45,5 @@ for i in range(2,5):
 
 print(Drop_ID)
 print(Student_Score)
+
 
