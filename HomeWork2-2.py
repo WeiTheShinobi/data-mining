@@ -26,8 +26,9 @@ for i in range(118):
 
 Student_Score = {}
 for i in range(1,5):
-    file2 = file[file['Problem'] == i]
-    file2 = file2.groupby('StudentID').Score
+    file2 = file[file['Problem'] == i]\
+        .groupby('StudentID')\
+        .Score
     for Name, Score in file2:
         Score = Score.max()
         if Student_Score.get(Name) != None:
@@ -36,6 +37,15 @@ for i in range(1,5):
 
 
 # （3）各題被接受（Accepted）次數。注意：有的學生就算某題被接受，仍會重新上傳，這不能重複計算！3
+
+Prob_Accept = {}
+for i in range(1,5):
+    file3 = file[file['Status'] == 'Accepted']
+    dup = file3.drop_duplicates('Status',"first",False)
+    print(dup)
+    for Name,Problem in file3:
+        print(Name)
+        print(len(Problem))
 
 # （4）各題得分率，以百分比（四捨五入到小數第一位）表示。已知各題配分依序為 30、40、30、30 分。4假如
 # 有 100 位學生參加考試（有上傳紀錄），在第一題共拿 2700 分，則第一題得分率是 2700/(30*100)=90.0%。
