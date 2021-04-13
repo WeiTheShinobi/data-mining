@@ -40,20 +40,37 @@ for i in range(1,5):
 
 Prob_Accept = {}
 for i in range(1,5):
-    file3 = file[file['Status'] == 'Accepted']
-    dup = file3.drop_duplicates('Status',"first",False)
-    print(dup)
-    for Name,Problem in file3:
-        print(Name)
-        print(len(Problem))
+    file3 = file[(file['Status'] == 'Accepted') &
+                 (file['Problem'] == i)]
+    file3_dict = file3.to_dict()
+
+    no_dup_file3 = {}
+    for j in file3_dict['StudentID'].values():
+        no_dup_file3[j] = None
+    Prob_Accept[i] = len(no_dup_file3)
+
 
 # （4）各題得分率，以百分比（四捨五入到小數第一位）表示。已知各題配分依序為 30、40、30、30 分。4假如
 # 有 100 位學生參加考試（有上傳紀錄），在第一題共拿 2700 分，則第一題得分率是 2700/(30*100)=90.0%。
 
+Prob_Score_Percentage = {}
+students = 118 - len(Drop_ID)
+total_score = [students*30, students*40, students*30, students*30]
 
+for i in range(1,5):
+    file2 = file[file['Problem'] == i]\
+        .groupby('StudentID')\
+        .Score
+    for Name, Score in file2:
+        Score = Score.max()
+        if Prob_Score_Percentage.get(i) != None:
+            Score += Prob_Score_Percentage.get(i)
+        Prob_Score_Percentage[i] = Score
+for i in range(4):
+    Prob_Score_Percentage[i+1] = round(Prob_Score_Percentage[i+1] / total_score[i],2)
 
 
 print(Drop_ID)
 print(Student_Score)
-
-
+print(Prob_Accept)
+print(Prob_Score_Percentage)
