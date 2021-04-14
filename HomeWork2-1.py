@@ -28,43 +28,42 @@ all 全
 """
 
 
-def problem1(round=1000000, variable=0.024):
-    pvalsUpper = (0.357 + (variable / 2), 0.245 + (variable / 2), 0.227 + (variable / 2))
-    pvalsLower = (0.357 - (variable / 2), 0.245 - (variable / 2), 0.227 - (variable / 2))
+def problem1():
+    pvals_upper = (0.357 + 0.012, 0.245 + 0.012, 0.227 + 0.012)
+    pvals_lower = (0.357 - 0.012, 0.245 - 0.012, 0.227 - 0.012)
     res = 0
 
-    for i in range(round):
+    for i in range(1000000):
         test = np.random.multinomial(3000, (0.357, 0.245, 0.227, 0), 5) / 3000
         test = test[:, :-1]
-        resTest = np.all(np.all(np.greater_equal(pvalsUpper, test)) * np.all(np.greater_equal(test, pvalsLower)))
+        resTest = np.all(np.all(np.greater_equal(pvals_upper, test)) * np.all(np.greater_equal(test, pvals_lower)))
+        res += resTest
+    res = res / 1000000
+    return res
+
+
+def problem2(round=1000000, vote_list=(0.357, 0.245, 0.227, 0)):
+    res = 0
+    for i in range(round):
+        test = np.random.multinomial(3000, vote_list, 5) / 3000
+        test = test[:, :-1]
+        resTest = np.all((np.ptp(test, 0)) < 0.024)
         res += resTest
     res = res / round
     return res
 
 
-def problem2(round=1000000, variable=0.024):
-    res = 0
-    for i in range(round):
-        test = np.random.multinomial(3000, (0.357, 0.245, 0.227, 0), 5) / 3000
-        test = test[:, :-1]
-        resTest = np.all((np.ptp(test, 0)) < variable)
-        res += resTest
-    res = res / round
-    return res
+def confirm():
+    res_list = []
+    for v3 in np.arange(0.2, 0.4, 0.005):
+        for v2 in np.arange(v3, 0.335, 0.005):
+            for v1 in np.arange(v2, 0.27, 0.005):
+                res = problem2(10000,(v1,v2,v3,0))
+                res_list.append(res)
+    res_min = min(res_list)
+    return res_min
 
 
-def confirm(problem):
-    print(problem.__name__)
-    for j in range(0, 1001, 5):
-        print("最高與最低支持度差距： " + str(j / 10) + "%")
-        res = problem(10000, j / 1000)
-        print(res)
-        if res == 1:
-            break
-
-
-print("狀況一達成機率 ： " + str(problem1()))
-print("狀況二達成機率 ： " + str(problem2()))
-
-confirm(problem1)
-confirm(problem2)
+print(problem1()) # 0.152
+print(problem2()) # 0.510
+print(confirm())  # 0.509
