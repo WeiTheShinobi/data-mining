@@ -13,18 +13,6 @@ import numpy as np
 模型 2: 不對稱考量
 放鬆考量，五項民調的上下差距不超過 2.4%，不用拘泥於以 (v1, v2, v3) 為中心，可能性為何？
 
-
-numpy.random.multinomial(n, pvals, size=None)
-n: 民調人數
-pvals: 機率，和為1
-size: 次數
-
-
-ptp 最大值與最小值差
-greater(a,b) a>b
-all 全
-
-
 """
 
 
@@ -64,6 +52,6 @@ def confirm():
     return res_min
 
 
-print(problem1()) # 0.152
-print(problem2()) # 0.510
-print(confirm())  # 0.509
+print(problem1())  # 0.152
+print(problem2())  # 0.510
+print(confirm())   # 0.509

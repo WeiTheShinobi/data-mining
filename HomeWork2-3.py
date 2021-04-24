@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.font_manager import FontProperties # 顯⽰中⽂字型
 import numpy as np
+
 """
 
 Problem 3. 各題作答狀況查詢系統
@@ -20,11 +20,33 @@ time_end = input(' 查詢結束時間（格式為 hh:mm:ss）: ')
 
 file = pd.read_csv('midterm2.csv')
 
-for i in range(1,5):
+tmp = {'Accepted': [], 'Compile Error': [], 'Runtime Error': [], 'Time Limit Exceed': [], 'Wrong Answer': []}
+
+for i in range(1, 5):
     file2 = file[file['Problem'] == i].groupby('Status')
     for Name, Problem in file2:
-        print(Name)
-        print(len(Problem))
+        tmp[Name].append(len(Problem))
+    for v in tmp.values():
+        if len(v) < i:
+            v.append(0)
+
+prob = ["Problem 1", "Problem 2", "Problem 3", "Problem 4"]
+y = np.arange(1, len(prob) + 1)
+
+plt.bar(y - 0.2, tmp['Accepted'], label="Accepted", width=0.1)
+plt.bar(y - 0.1, tmp['Compile Error'], label="Compile Error", width=0.1)
+plt.bar(y, tmp['Runtime Error'], label="Runtime Error", width=0.1)
+plt.bar(y + 0.1, tmp['Time Limit Exceed'], label="Time Limit Exceed", width=0.1)
+plt.bar(y + 0.2, tmp['Wrong Answer'], label="Wrong Answer", width=0.1)
+
+# for k in tmp:
+#     plt.bar(y, tmp[k], label=k, width=0.2)
 
 
+plt.legend(loc='BestOutside')
+plt.ylabel('Frequencies')
+plt.xticks(y, prob)
+plt.show()
+
+print(tmp)
 print()
