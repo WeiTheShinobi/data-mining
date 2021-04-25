@@ -1,9 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from prettytable import PrettyTable as pt
 import numpy as np
 
 """
-
 Problem 3. 各題作答狀況查詢系統
 承上題檔案。我們將製作資料查詢系統：輸入起始與結束時間，系統會統計這段時間各題上傳結果。
 首先，系統將結果顯示為 6×5 的報表，首欄依序填入 Problem Status 和五種答題狀況：Accepted, Compile
@@ -18,35 +18,47 @@ time_end = input(' 查詢結束時間（格式為 hh:mm:ss）: ')
 輸出的表格可以參考這段程式碼，7而印出的圖形則必須類似本頁上圖。
 """
 
+# 初始化
 file = pd.read_csv('midterm2.csv')
+problem_status = {'Accepted': [], 'Compile Error': [], 'Runtime Error': [], 'Time Limit Exceed': [], 'Wrong Answer': []}
 
-tmp = {'Accepted': [], 'Compile Error': [], 'Runtime Error': [], 'Time Limit Exceed': [], 'Wrong Answer': []}
+# 時間處理
+time_start = input(' 查詢起始時間（格式為 hh:mm:ss）: ')
+time_end = input(' 查詢結束時間（格式為 hh:mm:ss）: ')
+file['SubmissionTime'] = pd.to_datetime(file['SubmissionTime'])
+file = file.set_index('SubmissionTime')
+file = file.between_time(time_start, time_end)
 
+# 資料處理
 for i in range(1, 5):
     file2 = file[file['Problem'] == i].groupby('Status')
     for Name, Problem in file2:
-        tmp[Name].append(len(Problem))
-    for v in tmp.values():
+        problem_status[Name].append(len(Problem))
+    for v in problem_status.values():
         if len(v) < i:
             v.append(0)
 
+# 繪製長條圖
 prob = ["Problem 1", "Problem 2", "Problem 3", "Problem 4"]
 y = np.arange(1, len(prob) + 1)
-
-plt.bar(y - 0.2, tmp['Accepted'], label="Accepted", width=0.1)
-plt.bar(y - 0.1, tmp['Compile Error'], label="Compile Error", width=0.1)
-plt.bar(y, tmp['Runtime Error'], label="Runtime Error", width=0.1)
-plt.bar(y + 0.1, tmp['Time Limit Exceed'], label="Time Limit Exceed", width=0.1)
-plt.bar(y + 0.2, tmp['Wrong Answer'], label="Wrong Answer", width=0.1)
-
-# for k in tmp:
-#     plt.bar(y, tmp[k], label=k, width=0.2)
-
-
-plt.legend(loc='BestOutside')
+plt.bar(y - 0.2, problem_status['Accepted'], label="Accepted", width=0.1)
+plt.bar(y - 0.1, problem_status['Compile Error'], label="Compile Error", width=0.1)
+plt.bar(y, problem_status['Runtime Error'], label="Runtime Error", width=0.1)
+plt.bar(y + 0.1, problem_status['Time Limit Exceed'], label="Time Limit Exceed", width=0.1)
+plt.bar(y + 0.2, problem_status['Wrong Answer'], label="Wrong Answer", width=0.1)
+plt.title("Exam Uploading Status: " + time_start + "—" + time_end)
+ax = plt.subplot(111)
+box = ax.get_position()
+ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+ax.legend(loc='center left', bbox_to_anchor=(1, 0.7))
 plt.ylabel('Frequencies')
 plt.xticks(y, prob)
 plt.show()
 
-print(tmp)
-print()
+# 繪製圖表
+show_table = pt()
+column_names = ['Problem', 'Accepted', 'Compile Error', 'Runtime Error', 'Time Limit Exceed', 'Wrong Answer']
+show_table.add_column(column_names[0], ["Problem 1", "Problem 2", "Problem 3", "Problem 4"])
+for i in range(1, 6):
+    show_table.add_column(column_names[i], problem_status[column_names[i]])
+print(show_table)

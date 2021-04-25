@@ -46,7 +46,7 @@ def confirm():
     for v3 in np.arange(0.2, 0.4, 0.005):
         for v2 in np.arange(v3, 0.335, 0.005):
             for v1 in np.arange(v2, 0.27, 0.005):
-                res = problem2(10000,(v1,v2,v3,0))
+                res = problem2(10000, (v1, v2, v3, 0))
                 res_list.append(res)
     res_min = min(res_list)
     return res_min
@@ -54,4 +54,4 @@ def confirm():
 
 print(problem1())  # 0.152
 print(problem2())  # 0.510
-print(confirm())   # 0.509
+print(confirm())  # 0.509
