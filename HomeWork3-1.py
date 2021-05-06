@@ -8,10 +8,11 @@ soup = BeautifulSoup(resp.text, 'html.parser')
 res1 = soup.findAll('div', 'dictionaryExplanation')
 res2 = soup.findAll('div', 'pos_button')
 
-for i in range(len(res1)):
-    if len(res2) > 0:
-        print(res2[i].text, end=" ")
-    print(res1[i].text)
-
 if len(res1) == 0:
     print("Invalid query!")
+else:
+    for i in range(len(res1)):
+        if len(res2) > 0:
+            print(res2[i].text, end=" ")
+        print(res1[i].text)
+
