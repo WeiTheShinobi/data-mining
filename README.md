@@ -2,6 +2,12 @@
 
 寫好了給同學們參考👀
 
+[3-2 ptt爬蟲、製圖](HomeWork3-2.py)
+
+[3-1 使用Yahoo字典](HomeWork3-1.py)
+
+[2-4 歷年股票迴歸、製圖](HomeWork2-4.py)
+
 [2-3 考試提交資料處理與繪圖](HomeWork2-3.py)
 
 [2-2 考試提交資料處理](HomeWork2-2.py)
