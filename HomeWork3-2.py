@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def article_crawler(url):
+def crawl_article(url):
     try:
         my_headers = {'cookie': 'over18=1;'}
         response = requests.get(url, headers=my_headers)
@@ -43,7 +43,7 @@ def save(list_date, list_content):
     print("儲存")
 
 
-def index_crawler(start_index, end_index):
+def crawl_index(start_index, end_index):
     list_date = []
     list_content = []
 
@@ -54,7 +54,7 @@ def index_crawler(start_index, end_index):
         index_article_urls = soup.find_all('a', href=re.compile("/bbs/Gossiping/M"))
 
         for article_url in index_article_urls:
-            date, content = article_crawler("https://www.ptt.cc" + article_url['href'])
+            date, content = crawl_article("https://www.ptt.cc" + article_url['href'])
             if date != "":
                 time.sleep(0.1)
                 list_date.append(date)
@@ -70,17 +70,30 @@ def index_crawler(start_index, end_index):
     print("完成")
 
 
-def init_data(file):
+def parse_time(file):
     date_list = json.load(file)
     for i in range(len(date_list)):
         date_list[i] = date_list[i][11:19]
 
     data = pd.DataFrame(date_list, columns=["time"])
     data = pd.to_datetime(data['time'], format="%H:%M:%S", errors='ignore')
-    return data
+
+    frequency = []
+    for i in range(24):
+        time1 = str(i) + ":00:00"
+        time2 = str(i) + ":59:59"
+        if i < 10:
+            time1 = "0" + time1
+            time2 = "0" + time2
+
+        tmp = data[time1 < data]
+        tmp = tmp[tmp < time2]
+        frequency.append(len(tmp))
+
+    return frequency
 
 
-def draw(frequency):
+def draw_table(frequency):
     tmp = []
     tmp.extend(frequency[6:24])
     tmp.extend(frequency[0:6])
@@ -101,22 +114,8 @@ def draw(frequency):
 
 if __name__ == '__main__':
     if not os.path.exists('ptt/date.txt'):
-        index_crawler(29056, 31212)
+        crawl_index(29056, 31212)
 
-    file = open("ptt/date.txt", mode='r', encoding='utf-8')
-    data = init_data(file)
-
-    frequency = []
-
-    for i in range(24):
-        time1 = str(i) + ":00:00"
-        time2 = str(i) + ":59:59"
-        if i < 10:
-            time1 = "0" + time1
-            time2 = "0" + time2
-
-        tmp = data[time1 < data]
-        tmp = tmp[tmp < time2]
-        frequency.append(len(tmp))
-
-    draw(frequency)
+    ptt_time = open("ptt/date.txt", mode='r', encoding='utf-8')
+    frequency = parse_time(ptt_time)
+    draw_table(frequency)
