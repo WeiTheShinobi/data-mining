@@ -44,6 +44,7 @@ def save(list_date, list_content):
 
 
 def crawl_index(start_index, end_index):
+    print("開始下載")
     list_date = []
     list_content = []
 
@@ -60,14 +61,14 @@ def crawl_index(start_index, end_index):
                 list_date.append(date)
                 list_content.append(content)
 
-        print("第 " + str(index) + " 頁完成，目前共 " + str(index + 1 - start_index) + " 頁完成，還剩 " + str(
-            end_index - index - 1) + " 頁，文章數： " + str(len(list_date)))
+        print("第 " + str(index) + " 頁完成，目前共 " + str(index + 1 - start_index) + " 頁完成，還剩 " +
+              str(end_index - index - 1) + " 頁，文章數： " + str(len(list_date)))
 
         if index % 50 == 0:
             save(list_date, list_content)
 
     save(list_date, list_content)
-    print("完成")
+    print("完成下載")
 
 
 def parse_time(file):
@@ -116,6 +117,6 @@ if __name__ == '__main__':
     if not os.path.exists('ptt/date.txt'):
         crawl_index(29056, 31212)
 
-    ptt_time = open("ptt/date.txt", mode='r', encoding='utf-8')
-    frequency = parse_time(ptt_time)
-    draw_table(frequency)
+    with open("ptt/date.txt", mode='r', encoding='utf-8') as ptt_time:
+        frequency = parse_time(ptt_time)
+        draw_table(frequency)
