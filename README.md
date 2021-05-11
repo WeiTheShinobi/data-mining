@@ -2,6 +2,10 @@
 
 寫好了給同學們參考👀
 
+[3-5 Hahow 爬蟲、資料分析](HomeWork3-5.py)
+
+[3-4 四大超商爬蟲](HomeWork3-4.py)
+
 [3-3 google地圖 API](HomeWork3-3.py)
 
 [3-2 ptt爬蟲、製圖](HomeWork3-2.py)

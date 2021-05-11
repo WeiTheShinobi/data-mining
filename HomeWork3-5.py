@@ -12,13 +12,20 @@ def hahow_crawl():
                   'finance-and-investment', 'career-skills', 'handmade', 'lifestyle']
 
     hahow_statistics = []
+    all_student = []
+    all_pre_price = []
+    all_price = []
+    all_length = []
+
     for cate in categories:
         single_categories_data = [cate]
         course_student = []
         course_pre_price = []
         course_price = []
         course_length = []
-        for page in range(1, 3):
+        print("開始 " + cate + " 類")
+        for page in range(1, 30):
+
             URL = 'https://api.hahow.in/api/group/'
             resp = requests.get(URL + cate + '/courses?page=' + str(page), headers=headers).json()
             course_data = resp['data']
@@ -26,13 +33,19 @@ def hahow_crawl():
             if len(course_data) == 0:
                 break
 
+            print("第 " + str(page) + " 頁")
+
             for data in course_data:
-                if data.get('totalVideoLengthInSeconds') is None:
-                    break
+                if data.get('totalVideoLengthInSeconds') is None or 0:
+                    continue
                 course_student.append(data['numSoldTickets'])
                 course_pre_price.append(data['preOrderedPrice'])
                 course_price.append(data['price'])
                 course_length.append(data['totalVideoLengthInSeconds'] / 60)
+                all_student.append(data['numSoldTickets'])
+                all_pre_price.append(data['preOrderedPrice'])
+                all_price.append(data['price'])
+                all_length.append(data['totalVideoLengthInSeconds'] / 60)
 
             time.sleep(2)
 
@@ -45,10 +58,18 @@ def hahow_crawl():
         single_categories_data[2:9] = list(map(lambda x: round(x, 2), single_categories_data[2:9]))
         hahow_statistics.append(single_categories_data)
         print(cate + " 類完成")
-        print(single_categories_data)
+
     headers = ['課程類別', '課程總數', '學生均數 a', '募資均價 b', '線上均價 c', '平均課長 d(分鐘)', '相關係數 ab', '相關係數 ac', '相關係數 ad']
+
+    corrcoef = np.corrcoef([all_student, all_pre_price, all_price, all_length])
+    course_all = ['all', len(all_student), np.mean(all_student), np.mean(all_pre_price),
+                  np.mean(all_price), np.mean(all_length), corrcoef[0, 1], corrcoef[0, 2], corrcoef[0, 3]]
+    course_all[2:9] = list(map(lambda x: round(x, 2), course_all[2:9]))
+
+    hahow_statistics.append(course_all)
     hahow_statistics = pd.DataFrame(hahow_statistics)
     hahow_statistics.to_csv('hahow_statistics.csv', header=headers, index=0)
+    print('hahow_statistics.csv 檔案已建立')
 
 
 if __name__ == '__main__':
