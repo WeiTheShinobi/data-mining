@@ -141,7 +141,6 @@ def hi_life():
                 ])
 
         target = 'CITY'
-
     print("萊爾富 結束下載")
     return store_detail_list
 
@@ -165,7 +164,6 @@ def ok_mark():
         store_detail_list.append([i, name, tel, addr])
 
     print("OK超商 結束下載")
-
     return store_detail_list
 
 
@@ -181,17 +179,6 @@ def download_store_data():
     s4.to_excel(writer, index=None, header=["店號", "店名", "電話", "地址"], sheet_name="OK")
     writer.save()
     print("下載完成")
-
-
-def get_store_dict(store_dict, df, store=""):
-    addr = list(map(lambda x: x[0:6], df['地址'].tolist()))
-    name = df['店名'].tolist()
-
-    for i in range(len(addr)):
-        if store_dict.get(addr[i]) is None:
-            store_dict[addr[i]] = [store + name[i]]
-        else:
-            store_dict[addr[i]].append(store + name[i])
 
 
 def get_store(s_dict, data, name=""):
@@ -221,7 +208,6 @@ def create_json():
 
     with open('行政區與便利商店.json', mode='w', encoding='utf-8') as file:
         json.dump(store_dict, file)
-
     print("創建完成")
 
 
