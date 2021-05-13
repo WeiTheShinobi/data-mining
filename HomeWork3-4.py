@@ -107,6 +107,15 @@ def hi_life():
         soup = bs4.BeautifulSoup(resp.text, "html5lib")
         area_list = list(map(lambda x: x.text, soup.find(id='AREA').find_all()))
 
+        area_store_list = soup.find('tbody').find_all('tr')
+        for store in area_store_list:
+            store_detail_list.append([
+                store.find_all('th')[0].text,
+                store.find_all('th')[1].text,
+                store.find_all('td')[1].text,
+                store.find('a').text
+            ])
+
         view_state = soup.find(id='__VIEWSTATE')['value']
         viewstate_generator = soup.find(id='__VIEWSTATEGENERATOR')['value']
         event_validation = soup.find(id='__EVENTVALIDATION')['value']
@@ -208,7 +217,7 @@ def create_json():
 
     with open('行政區與便利商店.json', mode='w', encoding='utf-8') as file:
         json.dump(store_dict, file)
-    print("創建完成")
+    print("創建完成 行政區與便利商店.json")
 
 
 if __name__ == '__main__':
