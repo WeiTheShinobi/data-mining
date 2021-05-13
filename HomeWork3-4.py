@@ -68,7 +68,10 @@ def family_mart():
 
         store_detail = json.loads(soup)
         for detail in store_detail:
-            store_detail_list.append([detail['pkey'], detail['NAME'], detail['TEL'], detail['addr']])
+            addr = detail['addr'].replace('臺北', '台北')
+            addr = addr.replace('臺中', '台中')
+            addr = addr.replace('臺南', '台南')
+            store_detail_list.append([detail['pkey'], detail['NAME'], detail['TEL'], addr])
 
     print("全家 下載結束")
     return store_detail_list
