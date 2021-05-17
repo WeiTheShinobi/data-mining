@@ -4,6 +4,16 @@ import pandas as pd
 import json
 import bs4
 
+"""
+需要注意的是
+不論是請求或響應
+都要注意'台'和'臺'的差別
+
+全家回傳的資料中
+'台'和'臺'並不一致
+要手動處理
+"""
+
 
 def seven_11():
     print("7-11 開始下載")
@@ -75,6 +85,25 @@ def family_mart():
 
     print("全家 下載結束")
     return store_detail_list
+
+
+"""
+
+萊爾富的API有一套複雜的使用規則，
+在請求時有點麻煩。
+
+1. 要先取得token
+2. 切換 CITY 需要重新取得token
+3. form_data 裡的 '__EVENTTARGET' 有兩種參數 AREA 和 CITY，切換哪個就用哪個
+4. 錯誤的表單會讓連線中斷
+5. CITY改變時，AREA不變，反之 (所以每個城市的第一次特別處理)
+6. 如果從該網頁取得 CITY 和 AREA 的 list，需要改變並請求不同的 CITY，AREA 才會刷新，否則只會有每個 CITY 的第一個 AREA。
+
+這個method照著規則
+
+也許有其他更簡單的方法
+
+"""
 
 
 def hi_life():

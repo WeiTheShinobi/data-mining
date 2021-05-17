@@ -38,6 +38,8 @@ def hahow_crawl():
             for data in course_data:
                 if data.get('totalVideoLengthInSeconds') is None or 0:
                     continue
+                if data.get('price') == 0:
+                    continue
                 course_student.append(data['numSoldTickets'])
                 course_pre_price.append(data['preOrderedPrice'])
                 course_price.append(data['price'])
@@ -68,8 +70,8 @@ def hahow_crawl():
 
     hahow_statistics.append(course_all)
     hahow_statistics = pd.DataFrame(hahow_statistics)
-    hahow_statistics.to_csv('hahow_statistics.csv', header=headers, index=0)
-    print('hahow_statistics.csv 檔案已建立')
+    hahow_statistics.to_csv('hahow_statistics_無免費課.csv', header=headers, index=0)
+    print('hahow_statistics_無免費課.csv 檔案已建立')
 
 
 if __name__ == '__main__':

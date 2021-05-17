@@ -2,6 +2,11 @@ import googlemaps
 import time
 import json
 
+"""
+取得googlemaps.Client物件並傳入key參數
+使用googlemaps.client時放入即可使用
+"""
+
 
 def google_map_search(user, lat, lng, radius, keyword, page_token=None, store_amount=0, detail=[]):
     result = googlemaps.client.places_nearby(user,
