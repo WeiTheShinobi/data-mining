@@ -43,6 +43,6 @@ if __name__ == '__main__':
 
     with open(radius + "_" + keyword + ".json", mode='w', encoding='utf-8') as file:
         store_amount, detail = google_map_search(user, lat, lng, radius, keyword)
-        json.dump(detail, file)
+        json.dump(detail, file, indent=2, sort_keys=True, ensure_ascii=False)
         print(str(store_amount) + " 家")
         print("檔案 " + radius + "_" + keyword + ".json 已生成")

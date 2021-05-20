@@ -248,7 +248,7 @@ def create_json():
     store_dict = get_store(store_dict, okm, 'OK ')
 
     with open('行政區與便利商店.json', mode='w', encoding='utf-8') as file:
-        json.dump(store_dict, file)
+        json.dump(store_dict, file, indent=2, sort_keys=True, ensure_ascii=False)
     print("創建完成 行政區與便利商店.json")
 
 
