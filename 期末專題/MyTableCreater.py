@@ -5,8 +5,12 @@ import numpy as np
 from matplotlib.font_manager import FontProperties
 
 
-def create_tourist_table(areas):
+def create_tourist_table(areas=None):
     years = ['2019', '2020']
+    if areas is None:
+        file = pd.read_csv('遊客人數/2019/10801.csv')
+        areas = file['觀光遊憩區別'].tolist()
+
     for year in years:
         file_list = os.listdir('遊客人數/' + year)
 
@@ -33,7 +37,7 @@ def __draw_table(tourist_count, tourist_count_ticket, area, year):
     strChineseFont = 'msj.ttf'
     myFont = FontProperties(fname=strChineseFont)
 
-    mouth = np.arange(12)
+    mouth = np.arange(1, 13)
     y = np.arange(1, len(mouth) + 1)
     width = 0.3
     plt.bar(y, tourist_count, label="Free", width=width)
@@ -48,3 +52,4 @@ def __draw_table(tourist_count, tourist_count_ticket, area, year):
     plt.ylabel("遊客數", fontproperties=myFont)
     plt.title(year + " " + area, fontproperties=myFont)
     plt.savefig('table/' + area + "_" + year)
+    plt.show()
