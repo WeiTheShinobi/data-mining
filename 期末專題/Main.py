@@ -1,5 +1,6 @@
 import MyTableCreater
+import MyDistanceComputer
 
 if __name__ == '__main__':
-    areas = ['南鯤鯓代天府', '麻豆代天府', '關子嶺溫泉區', '安平小鎮', '奇美博物館']
-    MyTableCreater.create_tourist_table()
+    MyTableCreater.create_one_tourist_table_or_all()
+    MyDistanceComputer.create_nearest_site_csv()
