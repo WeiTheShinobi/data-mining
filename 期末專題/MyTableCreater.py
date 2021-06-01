@@ -13,7 +13,9 @@ def create_one_tourist_table_or_all():
         print(i, end=" ")
         print(areas[i])
 
-    number = int(input("輸入你想查看的地區（不輸入則為全部）： "))
+    number = int(input("輸入你想查看的地區的數字編號（不輸入則為全部，輸入 -1 忽略）： "))
+    if number == -1:
+        return
     __create_tourist_table(number)
 
 

@@ -15,7 +15,7 @@ def create_nearest_site_csv():
         tmp.extend(__get_distance_point_to_site(points_lat[i], points_lng[i]))
         csv_data.append(tmp)
     header = ["景點", "最近觀測站", "距離(km)"]
-    pd.DataFrame(csv_data).to_csv('output/site_distance.csv', header=header, index=0)
+    pd.DataFrame(csv_data).to_csv('output/site_distance.csv', header=header, index=0, encoding='big5')
 
     print("檔案 site_distance.csv 已創建")
 
