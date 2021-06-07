@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 
 
-# 製作 葉高緯、蹇淑玲
-
 # 下面函式：轉換成績
 def compute_std_and_mean(data):
     return np.std(data, ddof=1), np.mean(data)
@@ -67,6 +65,7 @@ if __name__ == '__main__':
     groupA_new.to_excel('prob2_files/A組new.xlsx', index=0)
     groupB_new.to_excel('prob2_files/B組new.xlsx', index=0)
     groupC_new.to_excel('prob2_files/C組new.xlsx', index=0)
+    print("轉換分數的檔案已生成")
 
     # 考生排名
     all_data = groupA_new.append(groupB_new)
@@ -79,6 +78,7 @@ if __name__ == '__main__':
 
     headers = ['考生組別', '組內順序', '成績', '名次']
     all_data.to_excel('prob2_files/成績排序.xlsx', index=0, header=headers)
+    print("檔案 成績排序.xlsx 已生成")
 
 """
 加分項：
