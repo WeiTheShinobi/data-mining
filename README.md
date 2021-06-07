@@ -4,7 +4,7 @@
 
 [4-4 鐵達尼號 KNN補值](HomeWork4-4.ipynb)
 
-[4-3 公平的換成學生成績](HomeWork4-3.py)
+[4-3 公平換算不同老師的學生成績](HomeWork4-3.py)
 
 [4-1 歌詞文字雲](HomeWork4-1.py)
 
