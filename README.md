@@ -6,6 +6,8 @@
 
 [4-3 公平的換成學生成績](HomeWork4-3.py)
 
+[4-1 歌詞文字雲](HomeWork4-1.py)
+
 [3-5 Hahow 爬蟲、資料分析](HomeWork3-5.py)
 
 [3-4 四大超商爬蟲](HomeWork3-4.py)
