@@ -68,8 +68,7 @@ if __name__ == '__main__':
     print("轉換分數的檔案已生成")
 
     # 考生排名
-    all_data = groupA_new.append(groupB_new)
-    all_data = all_data.append(groupC_new)
+    all_data = groupA_new.append(groupB_new).append(groupC_new)
 
     all_data = compute_total_t_score(all_data, headers_convert)
     all_data = all_data.sort_values(['成績', '組別'], ascending=False)
